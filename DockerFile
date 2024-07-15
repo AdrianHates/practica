@@ -1,12 +1,7 @@
-# Usa una imagen base que incluya Java y Maven
-FROM maven:3.8.4-openjdk-11-slim AS build
+FROM openjdk:22-jdk-slim
 
-# Copia el código fuente y los archivos de configuración
-COPY . /app
-WORKDIR /app
+EXPOSE 8080
 
-# Compila el proyecto con Maven
-RUN mvn clean install
+COPY --from=build /build/libs/demo-1.jar app.jar
 
-# Define el comando de inicio de tu aplicación
-CMD ["java", "-jar", "target/demo.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
